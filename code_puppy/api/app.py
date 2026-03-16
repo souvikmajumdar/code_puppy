@@ -68,7 +68,7 @@ async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
     except Exception as e:
         logger.error(f"Error closing PTY sessions: {e}")
 
-    # 2. Remove PID file so /api status knows we're gone
+    # 2. Remove PID file and port file so external clients know we're gone
     try:
         from code_puppy.config import STATE_DIR
 
@@ -76,8 +76,13 @@ async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
         if pid_file.exists():
             pid_file.unlink()
             logger.info("✓ PID file removed")
+
+        port_file = Path(STATE_DIR) / "api_server.port"
+        if port_file.exists():
+            port_file.unlink()
+            logger.info("✓ Port file removed")
     except Exception as e:
-        logger.error(f"Error removing PID file: {e}")
+        logger.error(f"Error removing PID/port files: {e}")
 
 
 def create_app() -> FastAPI:

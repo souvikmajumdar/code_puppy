@@ -1,0 +1,60 @@
+{
+  "name": "code-puppy",
+  "displayName": "Code Puppy",
+  "description": "AI coding agent powered by code-puppy",
+  "version": "0.1.0",
+  "engines": {
+    "vscode": "^1.110.0"
+  },
+  "categories": [
+    "AI",
+    "Other"
+  ],
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "code-puppy",
+          "title": "Code Puppy",
+          "icon": "media/puppy.svg"
+        }
+      ]
+    },
+    "views": {
+      "code-puppy": [
+        {
+          "type": "webview",
+          "id": "codePuppy.terminalView",
+          "name": "Terminal",
+          "icon": "media/puppy.svg"
+        }
+      ]
+    },
+    "commands": [
+      {
+        "command": "codePuppy.openTerminal",
+        "title": "Code Puppy: Open Terminal"
+      }
+    ]
+  },
+  "scripts": {
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "lint": "eslint src"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "@types/vscode": "^1.110.0",
+    "@types/ws": "^8.5.10",
+    "typescript": "^5.3.0"
+  },
+  "dependencies": {
+    "@xterm/xterm": "^5.5.0",
+    "@xterm/addon-fit": "^0.10.0",
+    "ws": "^8.16.0"
+  }
+}

@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+  <!-- Body -->
+  <ellipse cx="12" cy="15" rx="7" ry="6"/>
+  <!-- Head -->
+  <circle cx="12" cy="7" r="4"/>
+  <!-- Left ear -->
+  <path d="M8 4 Q5 1 4 4 Q5 7 8 6"/>
+  <!-- Right ear -->
+  <path d="M16 4 Q19 1 20 4 Q19 7 16 6"/>
+  <!-- Eyes -->
+  <circle cx="10.5" cy="6.5" r="0.75" fill="currentColor" stroke="none"/>
+  <circle cx="13.5" cy="6.5" r="0.75" fill="currentColor" stroke="none"/>
+  <!-- Nose -->
+  <ellipse cx="12" cy="8.5" rx="1" ry="0.6" fill="currentColor" stroke="none"/>
+  <!-- Tail -->
+  <path d="M19 13 Q23 10 22 15"/>
+</svg>

@@ -27,6 +27,7 @@ from code_puppy.config import (
     AUTOSAVE_DIR,
     COMMAND_HISTORY_FILE,
     DBOS_DATABASE_URL,
+    STATE_DIR,
     ensure_config_exists,
     finalize_autosave_session,
     get_use_dbos,
@@ -151,6 +152,10 @@ async def main():
     if available_port is None:
         emit_error("No available ports in range 8090-9010!")
         return
+
+    # Write port to file so external clients (e.g. VS Code extension) can discover it
+    Path(STATE_DIR).mkdir(parents=True, exist_ok=True)
+    Path(STATE_DIR, "api_server.port").write_text(str(available_port))
 
     # Early model setting if specified via command line
     # This happens before ensure_config_exists() to ensure config is set up correctly

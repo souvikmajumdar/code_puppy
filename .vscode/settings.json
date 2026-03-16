@@ -1,0 +1,6 @@
+{
+  // Point VS Code's Python extension to the project virtualenv so
+  // IntelliSense, linting, and the debugger all use the right interpreter
+  // without prompting you to select one each session.
+  "python.defaultInterpreterPath": "${env:HOME}/pilots/sandbox/developer-experience/code_puppy/.venv/bin/python"
+}

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<!--
+  Code Puppy — terminal webview HTML template.
+
+  Placeholder tokens replaced at runtime by terminalPanel.ts:
+    {{CSP_SOURCE}}   → webview.cspSource  (vscode-resource: scheme)
+    {{NONCE}}        → per-load random nonce for inline scripts
+    {{XTERM_JS}}     → webview URI for @xterm/xterm/lib/xterm.js
+    {{XTERM_CSS}}    → webview URI for @xterm/xterm/css/xterm.css
+    {{XTERM_FIT_JS}} → webview URI for @xterm/addon-fit/lib/addon-fit.js
+    {{TERMINAL_CSS}} → webview URI for media/terminal.css
+    {{TERMINAL_JS}}  → webview URI for media/terminal.js
+-->
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+
+  <!--
+    Content Security Policy:
+    - default-src 'none'          block everything not explicitly allowed
+    - style-src 'unsafe-inline'   xterm.js injects inline styles at runtime
+              {{CSP_SOURCE}}      allow CSS loaded from webview URIs
+    - script-src nonce-{{NONCE}}  allow only scripts tagged with this nonce
+               {{CSP_SOURCE}}     allow xterm.js / terminal.js from webview URIs
+    - connect-src 'none'          no network from webview — WS goes via host
+  -->
+  <meta http-equiv="Content-Security-Policy"
+    content="
+      default-src 'none';
+      style-src 'unsafe-inline' {{CSP_SOURCE}};
+      script-src 'nonce-{{NONCE}}' {{CSP_SOURCE}};
+      connect-src 'none';
+    ">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="{{XTERM_CSS}}">
+  <link rel="stylesheet" href="{{TERMINAL_CSS}}">
+</head>
+<body>
+  <div id="terminal"></div>
+
+  <script src="{{XTERM_JS}}" nonce="{{NONCE}}"></script>
+  <script src="{{XTERM_FIT_JS}}" nonce="{{NONCE}}"></script>
+  <script src="{{TERMINAL_JS}}" nonce="{{NONCE}}"></script>
+</body>
+</html>

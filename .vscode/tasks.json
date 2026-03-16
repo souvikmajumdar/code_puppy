@@ -1,0 +1,54 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    // Compiles the TypeScript extension before each F5 launch.
+    // Referenced by launch.json "preLaunchTask".
+    //
+    // Uses "type": "shell" instead of "type": "npm" because VS Code's
+    // integrated terminal does not load ~/.zshrc / nvm by default, so
+    // plain `npm` and `node` are not on PATH.
+    //
+    // We prepend the nvm bin directory to PATH so both `npm` and `node`
+    // resolve correctly when the compile script runs.
+    {
+      "type": "shell",
+      "command": "/Users/souvikmajumdar/.nvm/versions/node/v24.14.0/bin/npm run compile",
+      "options": {
+        "cwd": "${workspaceFolder}/extensions/vscode",
+        "env": {
+          // Prepend the nvm node bin so that `node` is on PATH when npm
+          // invokes it internally (npm scripts use #!/usr/bin/env node).
+          "PATH": "/Users/souvikmajumdar/.nvm/versions/node/v24.14.0/bin:${env:PATH}"
+        }
+      },
+      "label": "npm: compile - extensions/vscode",
+      "group": "build",
+      "problemMatcher": ["$tsc"],
+      "presentation": {
+        "reveal": "silent",
+        "panel": "shared"
+      }
+    },
+    // Watch mode — runs tsc in the background and recompiles on save.
+    // Run once via Terminal > Run Task > "watch extension" and leave it running
+    // during a dev session.  Faster than full compile on each F5.
+    {
+      "type": "shell",
+      "command": "/Users/souvikmajumdar/.nvm/versions/node/v24.14.0/bin/npm run watch",
+      "options": {
+        "cwd": "${workspaceFolder}/extensions/vscode",
+        "env": {
+          "PATH": "/Users/souvikmajumdar/.nvm/versions/node/v24.14.0/bin:${env:PATH}"
+        }
+      },
+      "label": "watch extension",
+      "group": "build",
+      "isBackground": true,
+      "problemMatcher": ["$tsc-watch"],
+      "presentation": {
+        "reveal": "never",
+        "panel": "shared"
+      }
+    }
+  ]
+}

@@ -1,0 +1,70 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    // ── 1. VS Code Extension Development Host ─────────────────────────────
+    // Press F5 with this selected to open a second VS Code window with the
+    // Code Puppy extension loaded.  The TypeScript source maps let you set
+    // breakpoints directly in src/*.ts files.
+    {
+      "name": "Launch Extension",
+      "type": "extensionHost",
+      "request": "launch",
+      "args": [
+        "--extensionDevelopmentPath=${workspaceFolder}/extensions/vscode"
+      ],
+      // Load .env so XDG overrides and dev flags are active in the host
+      "envFile": "${workspaceFolder}/extensions/vscode/.env",
+      // outFiles tells the debugger where compiled JS lives so it can
+      // map breakpoints back to TypeScript source via source maps
+      "outFiles": [
+        "${workspaceFolder}/extensions/vscode/out/**/*.js"
+      ],
+      // Recompile before each launch so you're always running latest code
+      "preLaunchTask": "npm: compile - extensions/vscode"
+    },
+
+    // ── 2. code-puppy Python process ──────────────────────────────────────
+    // Launches code-puppy CLI in the integrated terminal so the API server
+    // starts and writes the port file before the extension tries to connect.
+    // Run this configuration first, then launch the extension (config 1).
+    {
+      "name": "Launch code-puppy",
+      "type": "debugpy",
+      "request": "launch",
+      "module": "code_puppy",
+      "args": [],
+      "cwd": "${workspaceFolder}",
+      "envFile": "${workspaceFolder}/extensions/vscode/.env",
+      "justMyCode": true,
+      "console": "integratedTerminal"
+    },
+
+    // ── 3. Attach to running code-puppy ───────────────────────────────────
+    // Use this if code-puppy is already running (started manually in a
+    // terminal) and you want to attach the Python debugger to it.
+    // Requires code-puppy to have been started with debugpy listening:
+    //   python -m debugpy --listen 5678 -m code_puppy
+    {
+      "name": "Attach to code-puppy",
+      "type": "debugpy",
+      "request": "attach",
+      "connect": {
+        "host": "localhost",
+        "port": 5678
+      },
+      "justMyCode": true
+    }
+  ],
+
+  // ── Compound launch ───────────────────────────────────────────────────────
+  // "Launch All" starts code-puppy first, then the extension host.
+  // The extension's connect() call happens after activation (onStartupFinished)
+  // so code-puppy has time to write the port file first.
+  "compounds": [
+    {
+      "name": "Launch All (code-puppy + Extension)",
+      "configurations": ["Launch code-puppy", "Launch Extension"],
+      "stopAll": true
+    }
+  ]
+}

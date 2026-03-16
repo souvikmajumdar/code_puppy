@@ -1,0 +1,26 @@
+/*
+ * Styles for the Code Puppy terminal webview.
+ *
+ * The webview body inherits VS Code's CSS custom properties, so we use
+ * them for colours to stay in sync with whatever theme the user has active
+ * (light, dark, high-contrast, etc.).
+ */
+
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  /*
+   * Fall back to VS Code's sidebar background rather than a hard-coded
+   * #1e1e1e so the terminal doesn't look wrong on light themes.
+   * xterm.js will paint its own background on top once it initialises.
+   */
+  background: var(--vscode-sideBar-background, transparent);
+}
+
+#terminal {
+  width: 100%;
+  height: 100%;
+}
